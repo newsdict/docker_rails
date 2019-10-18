@@ -6,7 +6,7 @@ FROM ubuntu:${ubuntu_version}
 SHELL ["/bin/bash", "-c"]
 
 # default node version, you can use --build-arg
-ARG node_version="v12.11.1"
+ARG node_version="v12.12.0"
 
 # default ruby version, you can use --build-arg
 ARG ruby_version="2.6.5"
