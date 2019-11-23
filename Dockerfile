@@ -6,13 +6,13 @@ FROM ubuntu:${ubuntu_version}
 SHELL ["/bin/bash", "-c"]
 
 # default node version, you can use --build-arg
-ARG node_version="v12.11.1"
+ARG node_version="v12.13.0"
 
 # default ruby version, you can use --build-arg
-ARG ruby_version="2.6.5"
+ARG ruby_version="2.7"
 
 # default nvm version, you can use --build-arg
-ARG nvm_version="0.35.0"
+ARG nvm_version="0.35.1"
 
 # fast download server
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
