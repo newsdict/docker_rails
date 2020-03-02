@@ -14,6 +14,12 @@ ARG node_version="v13.9.0"
 # Default ruby version, you can use --build-arg
 ARG ruby_version="2.7.0"
 
+# Default ffi version, you can use --build-arg
+ARG ffi_version="1.12.2"
+
+# Default sassc version, you can use --build-arg
+ARG sassc_version="2.2.1"
+
 # Fast download server
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
 
@@ -59,8 +65,9 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
   && gem install bundler
 
 # Install sassc. For fast install of gem.
+RUN echo "gem: --no-rdoc --no-ri" > ~/.gemrc
 RUN . /etc/profile.d/rvm.sh && \
-  gem install sassc
+  gem install "sassc:${sassc_version}" "ffi:${ffi_version}"
 
 # Remove the files
 RUN apt-get clean \
