@@ -5,21 +5,37 @@ FROM ubuntu:${ubuntu_version}
 # Dockerfile on bash
 SHELL ["/bin/bash", "-c"]
 
+# default nvm version, you can use --build-arg
+ARG nvm_version="0.35.2"
+
 # default node version, you can use --build-arg
-ARG node_version="v12.14.0"
+ARG node_version="v13.9.0"
 
 # default ruby version, you can use --build-arg
 ARG ruby_version="2.7.0"
-
-# default nvm version, you can use --build-arg
-ARG nvm_version="0.35.2"
 
 # fast download server
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
 
 # install packages
 RUN apt update \
-  && apt install --no-install-recommends -y gnupg2 gnupg1 gnupg git curl libmecab-dev mecab-ipadic mecab-ipadic-utf8 mecab-utils libmagickwand-dev openjdk-8-jdk graphicsmagick graphviz nginx python2
+  && apt install --no-install-recommends  -y \
+  gnupg2 \
+  gnupg1 \
+  gnupg \
+  libmagickwand-dev \
+  libmecab-dev \
+  libxslt-dev \
+  mecab-ipadic \
+  mecab-ipadic-utf8 \
+  mecab-utils \
+  openjdk-8-jdk \
+  graphicsmagick \
+  graphviz \
+  nginx \
+  python2 \
+  git \
+  curl
 
 # install yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
@@ -45,5 +61,5 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
 # remove the files
 RUN apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-  
+
 CMD ["/bin/sh"]
