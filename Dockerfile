@@ -1,6 +1,9 @@
 # define ubuntu version, you can use --build-arg
-ARG ubuntu_version="19.10"
+ARG ubuntu_version="20.10"
 FROM ubuntu:${ubuntu_version}
+
+# refs. https://qiita.com/yagince/items/deba267f789604643bab
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Dockerfile on bash
 SHELL ["/bin/bash", "-c"]
@@ -68,6 +71,20 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
 RUN echo "gem: --no-rdoc --no-ri" > ~/.gemrc
 RUN . /etc/profile.d/rvm.sh && \
   gem install "sassc:${sassc_version}" "ffi:${ffi_version}"
+
+# Install chrome && chromedriver && `IPA font` for selenium
+RUN curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list \
+    && apt update \
+    && apt install --no-install-recommends -y google-chrome-stable unzip
+RUN curl -L http://chromedriver.storage.googleapis.com/$(curl http://chromedriver.storage.googleapis.com/LATEST_RELEASE )/chromedriver_linux64.zip -o chromedriver_linux64.zip \
+    && unzip chromedriver_linux64.zip \
+    && mv chromedriver /usr/local/bin/
+RUN . /etc/profile.d/rvm.sh && \
+    gem install selenium-webdriver
+RUN curl https://ipafont.ipa.go.jp/IPAexfont/IPAexfont00401.zip -o IPAexfont00401.zip \
+    && unzip IPAexfont00401.zip -d ~/.fonts/ \
+    && fc-cache -fv
 
 # Remove the files
 RUN apt-get clean \
