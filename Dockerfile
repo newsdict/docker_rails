@@ -21,7 +21,7 @@ ARG ruby_version="2.7.0"
 ARG ffi_version="1.12.2"
 
 # Default sassc version, you can use --build-arg
-ARG sassc_version="2.3.0"
+ARG sassc_version="2.4.0"
 
 # Fast download server
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
