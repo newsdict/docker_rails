@@ -12,13 +12,13 @@ SHELL ["/bin/bash", "-c"]
 ARG nvm_version="0.35.2"
 
 # Default node version, you can use --build-arg
-ARG node_version="v13.9.0"
+ARG node_version="v14.3.0"
 
 # Default ruby version, you can use --build-arg
-ARG ruby_version="2.7.0"
+ARG ruby_version="2.7.1"
 
 # Default ffi version, you can use --build-arg
-ARG ffi_version="1.12.2"
+ARG ffi_version="1.13.1"
 
 # Default sassc version, you can use --build-arg
 ARG sassc_version="2.4.0"
