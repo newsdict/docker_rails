@@ -9,13 +9,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-c"]
 
 # Default nvm version, you can use --build-arg
-ARG nvm_version="0.35.2"
+ARG nvm_version="0.37.0"
 
 # Default node version, you can use --build-arg
-ARG node_version="v14.3.0"
+ARG node_version="v15.2.1"
 
 # Default ruby version, you can use --build-arg
-ARG ruby_version="2.7.1"
+ARG ruby_version="2.7.2"
 
 # Default ffi version, you can use --build-arg
 ARG ffi_version="1.13.1"
@@ -82,7 +82,7 @@ RUN curl -L http://chromedriver.storage.googleapis.com/$(curl http://chromedrive
     && mv chromedriver /usr/local/bin/
 RUN . /etc/profile.d/rvm.sh && \
     gem install selenium-webdriver
-RUN curl https://ipafont.ipa.go.jp/IPAexfont/IPAexfont00401.zip -o IPAexfont00401.zip \
+RUN curl https://moji.or.jp/wp-content/ipafont/IPAexfont/IPAexfont00401.zip -o IPAexfont00401.zip \
     && unzip IPAexfont00401.zip -d ~/.fonts/ \
     && fc-cache -fv
 
