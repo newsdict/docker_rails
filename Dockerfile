@@ -12,7 +12,7 @@ SHELL ["/bin/bash", "-c"]
 ARG nvm_version="0.37.0"
 
 # Default node version, you can use --build-arg
-ARG node_version="v15.2.1"
+ARG node_version="v15.3.0"
 
 # Default ruby version, you can use --build-arg
 ARG ruby_version="2.7.2"
