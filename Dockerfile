@@ -9,10 +9,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-c"]
 
 # Default nvm version, you can use --build-arg
-ARG nvm_version="0.37.0"
+ARG nvm_version="0.37.2"
 
 # Default node version, you can use --build-arg
-ARG node_version="v15.3.0"
+ARG node_version="v14.15.1"
 
 # Default ruby version, you can use --build-arg
 ARG ruby_version="2.7.2"
