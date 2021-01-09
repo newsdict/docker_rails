@@ -15,7 +15,7 @@ ARG nvm_version="0.37.2"
 ARG node_version="v14.15.1"
 
 # Default ruby version, you can use --build-arg
-ARG ruby_version="2.7.2"
+ARG ruby_version="3.0.0"
 
 # Default ffi version, you can use --build-arg
 ARG ffi_version="1.13.1"
