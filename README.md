@@ -6,3 +6,9 @@ https://github.com/newsdict/docker_rails
 ## DockerHub
 
 https://hub.docker.com/repository/docker/newsdict/rails
+
+## Docker image tag using this repository.
+
+```
+$ sh tag.sh
+```
