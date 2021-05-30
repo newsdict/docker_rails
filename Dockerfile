@@ -2,7 +2,7 @@
 ARG ubuntu_version="20.10"
 FROM ubuntu:${ubuntu_version}
 
-ARG image_version="v1.1"
+ARG image_version="v1.2"
 
 # Default nvm version, you can use --build-arg
 ARG nvm_version="v0.38.0"
@@ -50,6 +50,7 @@ RUN \
   nginx \
   python2 \
   unzip \
+  tzdata \
   git \
   curl
 
