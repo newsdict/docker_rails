@@ -2,6 +2,8 @@
 ARG ubuntu_version="20.10"
 FROM ubuntu:${ubuntu_version}
 
+ARG image_version="v1.1"
+
 # Default nvm version, you can use --build-arg
 ARG nvm_version="v0.38.0"
 
@@ -30,8 +32,9 @@ SHELL ["/bin/bash", "-c"]
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
 
 # Install packages
-RUN apt update \
-  && apt install --no-install-recommends  -y \
+RUN \
+  apt update && \
+  apt install --no-install-recommends  -y \
   gnupg2 \
   gnupg1 \
   gnupg \
@@ -46,52 +49,52 @@ RUN apt update \
   graphviz \
   nginx \
   python2 \
+  unzip \
   git \
   curl
-  
+
+# Install chrome && chromedriver && `IPA font` for selenium
+RUN \
+  curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list && \
+  curl -L http://chromedriver.storage.googleapis.com/${chromedriver_version}/chromedriver_linux64.zip -o chromedriver_linux64.zip && \
+  unzip chromedriver_linux64.zip && \
+  mv chromedriver /usr/local/bin/ && \
+  apt update && \
+  apt install --no-install-recommends  -y google-chrome-stable
+RUN \
+  curl https://moji.or.jp/wp-content/ipafont/IPAexfont/IPAexfont00401.zip -o IPAexfont00401.zip && \
+  unzip IPAexfont00401.zip -d ~/.fonts/ && \
+  fc-cache -fv
+
 # Install yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-  && apt update \
-  && apt install --no-install-recommends -y yarn
+RUN \
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  apt update && \
+  apt install --no-install-recommends -y yarn
 
 
 # Installv nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_version}/install.sh | bash
-ENV NVM_DIR "/root/.nvm"
-RUN . ${NVM_DIR}/nvm.sh \
-  && nvm install ${node_version} \
-  && nvm alias default ${node_version}
+RUN echo '. /root/.nvm/nvm.sh' > /etc/profile.d/nvm.sh
+RUN \
+  . /etc/profile && \
+  nvm install ${node_version} && \
+  nvm alias default ${node_version}
 
 # Install rvm
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
-  && curl -sSL https://rvm.io/pkuczynski.asc | gpg --import - \
-  && curl -sSL https://get.rvm.io | bash -s stable \
-  && . /etc/profile.d/rvm.sh \
-  && rvm install ${ruby_version} \
-  && gem install bundler
-
-# Install sassc. For fast install of gem.
 RUN echo "gem: --no-rdoc --no-ri" > ~/.gemrc
-RUN . /etc/profile.d/rvm.sh && \
-  gem install "sassc:${sassc_version}" "ffi:${ffi_version}"
-
-# Install chrome && chromedriver && `IPA font` for selenium
-RUN curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list \
-    && apt update \
-    && apt install --no-install-recommends -y google-chrome-stable unzip
-RUN curl -L http://chromedriver.storage.googleapis.com/${chromedriver_version}/chromedriver_linux64.zip -o chromedriver_linux64.zip \
-    && unzip chromedriver_linux64.zip \
-    && mv chromedriver /usr/local/bin/
-RUN . /etc/profile.d/rvm.sh && \
-    gem install selenium-webdriver
-RUN curl https://moji.or.jp/wp-content/ipafont/IPAexfont/IPAexfont00401.zip -o IPAexfont00401.zip \
-    && unzip IPAexfont00401.zip -d ~/.fonts/ \
-    && fc-cache -fv
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - && \
+  curl -sSL https://rvm.io/pkuczynski.asc | gpg --import - && \
+  curl -sSL https://get.rvm.io | bash -s stable && \
+  . /etc/profile.d/rvm.sh && \
+  rvm install ${ruby_version} && \
+  gem install bundler selenium-webdriver sassc:${sassc_version} ffi:${ffi_version}
 
 # Remove the files
-RUN apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD ["/bin/sh"]
