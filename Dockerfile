@@ -2,25 +2,23 @@
 ARG ubuntu_version="20.10"
 FROM ubuntu:${ubuntu_version}
 
-ARG image_version="v1.2"
-
 # Default nvm version, you can use --build-arg
-ARG nvm_version="v0.38.0"
+ARG nvm_version="v0.39.0"
 
 # Default node version, you can use --build-arg
-ARG node_version="v14.17.0"
+ARG node_version="v14.18.1"
 
 # Default ruby version, you can use --build-arg
-ARG ruby_version="3.0.1"
+ARG ruby_version="3.0.2"
 
 # Default ffi version, you can use --build-arg
-ARG ffi_version="1.15.1"
+ARG ffi_version="1.15.4"
 
 # Default sassc version, you can use --build-arg
 ARG sassc_version="2.4.0"
 
 # Default chromedriver version, you can use --build-arg
-ARG chromedriver_version="90.0.4430.24"
+ARG chromedriver_version="95.0.4638.17"
 
 # refs. https://qiita.com/yagince/items/deba267f789604643bab
 ENV DEBIAN_FRONTEND=noninteractive
